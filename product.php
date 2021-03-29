@@ -3,6 +3,11 @@ session_start();
 $id = $_SESSION['id'];
 include('connection.php');
 ?>
+
+<?php
+include("header.php");
+?>
+
 <!DOCTYPE html>
 <html>
 
@@ -11,74 +16,28 @@ include('connection.php');
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Jade</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&display=swap" rel="stylesheet">
     <style type="text/css">
-        .logo img {
-            height: 55px;
-        }
+    a:link,
+    a:visited {
+        color: #f3d8e6;
+        font-size: 16px;
+    }
 
-        .nav-link {
-            padding: 8px 10px 8px !important;
-        }
+    a:hover,
+    a:active {
+        color: white;
+    }
 
-        .navigation a {
-            font-size: 17px;
-            color: black;
-        }
-
-        .navigation a:hover {
-            color: #ff5c33;
-        }
+    .dropdown-menu {
+        background-color: black;
+    }
 
 
-        .navigation a.active-link {
-            background-color: #ff5c33;
-            color: white;
-            border-radius: 5px;
-
-        }
-
-
-        .dropdown-menu a:active {
-            background-color: #404040;
-        }
-
-        .nav-item .fa {
-            font-size: 35px;
-            margin-top: 2px;
-            color: #ff5c33;
-        }
-
-        .navbar-center {
-            position: relative;
-            left: 27%;
-        }
-
-        .navi {
-            background-color: #404040;
-        }
-
-        .navi nav {
-            padding: 0px;
-            margin-bottom: 40px;
-        }
-
-        .navi li {
-            margin-left: 20px;
-        }
-
-        .navi a {
-            font-family: 'Merriweather', serif;
-            color: #ff4040;
-            font-size: 20px;
-        }
-
-        .navi a:hover {
-            color: white;
-            background-color: #ff5c33;
+        .dropdown .fa{
+            font-size: 24px;
         }
 
         .vmenu {
@@ -88,11 +47,12 @@ include('connection.php');
         }
 
         .vmenu a {
-            color: #ff3030;
+            color: #f3d8e6;
         }
 
         .vmenu a:hover {
             background-color: white;
+            color: black;
         }
 
         .card img {
@@ -100,14 +60,23 @@ include('connection.php');
         }
 
         .card {
-            /*height: 82.5%;*/
+            height: 90%;
             margin-bottom: 20px;
             text-align: center;
         }
 
+
+        .card img{
+            height: 58%;
+        }
+
+        .card-title{
+            font-size: 16px;
+        }
+
         .card-text {
             font-style: italic;
-            font-size: 16px;
+            font-size: 13px;
             color: #404040;
         }
 
@@ -117,7 +86,7 @@ include('connection.php');
 
         .btn {
             color: white;
-            background-color: #ff5c33;
+            background-color: #c33c82;
         }
 
 
@@ -141,22 +110,10 @@ include('connection.php');
             margin-top: 20px;
             margin-bottom: 10px;
         }
-
-        .fa {
-            font-size: 30px;
-            margin-right: 10px;
-        }
-
-        .foot {
-            background-color: lightgrey;
-        }
     </style>
 </head>
 
 <body>
-    <?php
-    include("header.php");
-    ?>
 
     <div class="container-fluid">
         <div class="row">
@@ -165,11 +122,11 @@ include('connection.php');
 
                     <ul class="nav flex-column menu">
                         <li class="nav-item">
-                            <a class="nav-link active-link" href="?page=mens">Mens</a>
+                            <a class="nav-link active-link" href="?page=mens">Men</a>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link" href="?page=womens">Womens</a>
+                            <a class="nav-link" href="?page=womens">Women</a>
                         </li>
 
                     </ul>
@@ -192,7 +149,7 @@ include('connection.php');
                     ?>
                 </form>
             </div>
-            <?php
+        <?php
       
       if(isset($_POST['add'])) 
       {
@@ -244,7 +201,7 @@ include('connection.php');
     ?>
 
 
-        </div>
+    </div>
     </div>
 
     <?php
@@ -252,5 +209,9 @@ include('connection.php');
     ?>
 
 </body>
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
 </html>

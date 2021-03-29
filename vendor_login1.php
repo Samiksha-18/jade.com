@@ -1,30 +1,20 @@
 <?php
 session_start();
 include("connection.php");
-if (isset($_POST['submit_login'])) {
-	$email = $_POST['login_email'];
-	$pass = $_POST['login_password'];
-	$query = mysqli_query($con, "SELECT * FROM user_details WHERE user_emailid = '$email' AND user_password = '$pass'");
-	$num_rows = mysqli_num_rows($query);
-	$row = mysqli_fetch_array($query);
-	if ($num_rows > 0) {
-		$_SESSION["id"] = $row['user_id'];
-		$_SESSION["success"] = 'You are now logged in';
-		echo $row['user_id'];
-?>
-		<script>
-			alert('Successfully logged in');
-			document.location = 'index.php';
-		</script>
-	<?php
-	} else {
-	?>
-		<script>
-			alert('Invalid Username or Password');
-		</script>
-<?php
-	}
+extract($_REQUEST);
+if (isset($_SESSION['id'])) {
+    header("location:myproducts.php");
 }
+if (isset($login)) {
+    $sql = mysqli_query($con, "select * from vendor where vendor_email='$username' && vendor_password='$pswd' ");
+    if (mysqli_num_rows($sql)) {
+        $_SESSION['id'] = $username;
+        header('location:myproducts.php');
+    } else {
+        $admin_login_error = "Invalid Username or Password";
+    }
+}
+
 ?>
 
 <?php 
@@ -184,7 +174,7 @@ include("header.php");
 	
 <body>
 	<div class="form1">
-		<h3>Login</h3>
+		<h3>Vendor Login</h3>
 		<form method="post" name='form' onsubmit="return valform()">
 		<table>
 			<tr>
@@ -198,7 +188,7 @@ include("header.php");
 			</tr>
 	</table>
 			<div><button type="submit" class="btn btn1" name="submit_login">Login</button></div>
-			<a href="registration.php">Not a member? Sign Up</a>
+			<a href="vendor_signup.php">Not a verified vendor? Sign Up</a>
 			
 	</form>	
 	</div>

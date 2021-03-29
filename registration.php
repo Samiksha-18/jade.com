@@ -1,5 +1,6 @@
 <?php
 include("connection.php");
+include("header.php");
 ?>
 <!DOCTYPE html>
 <html>
@@ -185,10 +186,6 @@ include("connection.php");
 		}
 	</script>
 <body>
-	<?php
-	include("header.php");
-	?>
-
 	<div class="forms">
 	<h3>Registration</h3>
 	<form method="post"  name="register">

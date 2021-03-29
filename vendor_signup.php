@@ -1,33 +1,38 @@
 <?php
 session_start();
 include("connection.php");
-if (isset($_POST['submit_login'])) {
-	$email = $_POST['login_email'];
-	$pass = $_POST['login_password'];
-	$query = mysqli_query($con, "SELECT * FROM user_details WHERE user_emailid = '$email' AND user_password = '$pass'");
-	$num_rows = mysqli_num_rows($query);
-	$row = mysqli_fetch_array($query);
-	if ($num_rows > 0) {
-		$_SESSION["id"] = $row['user_id'];
-		$_SESSION["success"] = 'You are now logged in';
-		echo $row['user_id'];
-?>
-		<script>
-			alert('Successfully logged in');
-			document.location = 'index.php';
-		</script>
-	<?php
-	} else {
-	?>
-		<script>
-			alert('Invalid Username or Password');
-		</script>
-<?php
-	}
+extract($_REQUEST);
+    if(isset($_SESSION['id']))
+{
+	header("location:myproducts.php");
 }
-?>
 
-<?php 
+	if(isset($register))
+     {
+	$sql=mysqli_query($con,"select * from vendor where vendor_email='$email'");
+    if(mysqli_num_rows($sql))
+	{
+	  $email_error="This Email Id is laready registered with us";
+	}
+	else
+	{
+	$logo=$_FILES['logo']['name'];
+	$sql=mysqli_query($con,"insert into vendor 
+	(fld_name	,fld_email,fld_password,fld_mob,fld_phone,fld_address,fld_logo)
+       	values('$r_name','$email','$pswd','$mob','$phone','$address','$logo')");
+	
+	$_SESSION['id']=$email;
+	
+	header("location:myproducts.php");
+	
+	}
+  }
+	
+	
+  
+?>
+<?php
+include("connection.php");
 include("header.php");
 ?>
 <!DOCTYPE html>
@@ -48,7 +53,22 @@ include("header.php");
 	<style type="text/css">
 		body{
 			background-image: url('images/bg11.jpg');
-			background-position: right;
+			background-position: center;
+		}
+
+		.navbar{
+			background-color: black;
+			margin-bottom: 20px;
+			padding: 10px;
+		}
+
+		.navbar img{
+	      width: 20%;
+	    }
+
+		.nav-item{
+			padding-left: 10px;
+			padding-right: 10px;
 		}
 
 		a:link , a:visited{
@@ -64,7 +84,7 @@ include("header.php");
 			background-color: black;
 		}
 
-		.form1{
+		.forms{
 			background-color: #faeaf3;
 			width: 40%;
 			margin: auto;
@@ -80,7 +100,6 @@ include("header.php");
 
 		label{
 			font-weight: 500;
-			margin-left: 20px;
 		}
 
 		input{
@@ -88,7 +107,7 @@ include("header.php");
 			background: white;
 			width: 100%;
 			margin-bottom: 5px;
-			margin-left: 60px;
+			margin-left: 30px;
 		}
 
 		td{
@@ -109,7 +128,7 @@ include("header.php");
 			background-color: #404040;
 		}
 
-		.form1 a{
+		.forms a{
 			color: black;
 		}
 
@@ -161,53 +180,97 @@ include("header.php");
 	      font-size: 14px;
 	    }
 	</style>
+
 	<script type="text/javascript">
-		function valform()
-		{
-			var pass = document.form1.login_password.value;
-			var email = document.form1.login_email.value;
+		function validate(){
+			var name = document.form1.user_name.value;
+			var address = document.form1.user_address.value;
+			var mob = document.form1.user_mobilenumber.value;
+			var p1 = document.form1.password1.value;
+			var p2 = document.form1.password2.value;
+			var email = document.form1.user_emailid.value;
 
 			if (email==null || email==""){
 				alert("Email can't be blank");
 				return false;
 			}
-
-			if (pass==null || pass==""){
+			if (name==null || name==""){
+				alert("Name can't be blank");
+				return false;
+			}
+			if (address==null || address==""){
+				alert("address can't be blank");
+				return false;
+			}
+			if (mob==null || mob==""){
+				alert("Mobile can't be blank");
+				return false;
+			}
+			if (p1==null || p1==""){
 				alert("Password can't be blank");
 				return false;
 			}
-			
+			if (p2==null || p2==""){
+				alert("Confirm Password can't be blank");
+				return false;
+			}
+
+
 		}
-
 	</script>
-
-	
 <body>
-	<div class="form1">
-		<h3>Login</h3>
-		<form method="post" name='form' onsubmit="return valform()">
-		<table>
+
+	<div class="forms">
+	<h3>Vendor Registration</h3>
+	<form method="post"  name="register">
+		<table>	
+			<tr>
+				<td>
+					<label>Company Name</label>
+				</td>
+				<td>
+					<input type="text" name="user_name" required>
+				</td>
+			</tr>
+
+			<tr>
+				<td>
+					<label>Address</label>
+				</td>
+				<td>
+					<input type="varchar" name="user_address" required>
+				</td>
+			</tr>
 			<tr>
 				<td><label>Email Id</label></td>
-				<td><input type="email" required name="login_email"></td>
+				<td><input type="email" name="user_emailid" required></td>
 			</tr>
-			
+			<tr>
+				<td><label>Mobile Number</label></td>
+				<td><input type="int" name="user_mobilenumber" required></td>
+			</tr>
+
 			<tr>
 				<td><label>Password</label></td>
-				<td><input type="password" required name="login_password"></td>
+				<td><input type="password"  name="password1" required></td>
 			</tr>
-	</table>
-			<div><button type="submit" class="btn btn1" name="submit_login">Login</button></div>
-			<a href="registration.php">Not a member? Sign Up</a>
+
+			<tr>
+				<td><label>Confirm Password</label></td>
+				<td><input type="password" name="password2" required></td>
+			</tr>
+
+		</table>
+		<div><button type="submit" class="btn btn1" name="submit_register">REGISTER</button></div>
 			
-	</form>	
+		<a href="login.php">Already a member? Login</a>
+	</form>		
 	</div>
 
 
 <?php
 include("footer.php");
 ?>
-
 </body>
 
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
@@ -215,3 +278,33 @@ include("footer.php");
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
 </html>
+<?php
+include("connection.php");
+if(isset($_POST['submit_register'])){
+	$user_name = $_POST['user_name'];
+	$user_address = $_POST['user_address'];
+	$user_emailid = $_POST['user_emailid'];
+	$user_mobilenumber = $_POST['user_mobilenumber'];
+	$password1 = $_POST['password1'];
+	$password2 = $_POST['password2'];
+
+	if ($password1 != $password2) {
+		?>
+				<script type="text/javascript">
+					alert("The passwords do not match");
+				</script>
+			<?php
+			} else {
+				$query = "INSERT INTO user_details(user_name,user_address,user_emailid,user_mobilenumber,user_password) VALUES ('$user_name','$user_address','$user_emailid','$user_mobilenumber','$password1')";
+				mysqli_query($con, $query) or die('Error in updating database');
+				
+		// 	?>
+		// 		<script type="text/javascript">
+					window.location = 'login.php';
+					alert("Successfully Added.");
+					
+		// 		</script>
+		// <?php
+			}
+}
+?>
